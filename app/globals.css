@@ -1,26 +1,144 @@
+/* === Global Styles === */
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background-gradient: linear-gradient(#230e47 40%, #0c143a 60%, #761235 100%);
+  --text-color: white;
+  --color2:linear-gradient(#761235 30%, #0c143a 60%, #230e47 100%)
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background-gradient);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  min-width: 100vw;
+  text-align: center;
+  z-index: -100;
+  
+}
+
+/* === Glitch Effect === */
+.glitch-text {
+  
+  cursor: pointer;
+  font-weight: bold;
+  text-shadow: 
+    1px 1px 0px #fff, 
+    -1px -1px 0px #ff00ff, 
+    1px -1px 0px #00ffff, 
+    -1px 1px 0px #ff0000;
+  animation: glitch 0.1s infinite alternate;
+
+  /* Ukuran teks responsif */
+  font-size: clamp(60px, 10vw, 80px);
+  max-width: 95vw;
+  white-space: nowrap; /* Mencegah teks turun ke bawah */
+  overflow: hidden;
+  padding: 0 5vw;
+  text-wrap: balance; /* Menyesuaikan ukuran agar tetap di satu baris */
+  z-index: -2;
+
+  user-select: none; /* Mencegah teks bisa diseleksi */
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+}
+
+/* === Sembunyikan teks saat loading === */
+.glitch-text.hidden {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* === Glitch Animation === */
+@keyframes glitch {
+  0% { transform: translate(1px, 1px); }
+  25% { transform: translate(-1px, -1px); }
+  50% { transform: translate(2px, -2px); }
+  75% { transform: translate(-2px, 2px); }
+  100% { transform: translate(1px, -1px); }
+}
+
+/* === Loading Screen === */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color2); /* Transparansi agar lebih smooth */
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.5s ease-in-out, visibility 0.5s;
+}
+
+/* Aktifkan loading screen */
+.loading-screen.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* === Loading Spinner === */
+.loading-spinner {
+  width: 150px;
+  height: 150px;
+  border: 10px solid rgb(80, 17, 72);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(23, 24, 56);
+  background: linear-gradient(180deg, rgba(23, 24, 56, 1) 0%, rgba(126, 126, 194, 1) 49%, rgba(237, 214, 235, 1) 100%);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  width: 0;
+  background-color: rgba(18, 11, 53, 0.905);
+}
+
+/* === Responsive Fix untuk semua perangkat === */
+@media (max-width: 800px) { /* Tablet */
+  .glitch-text {
+    font-size: clamp(30px, 10vw, 60px);
+    max-width: 90vw;
+  } 
+}
+
+@media (max-width: 500px) { /* HP kecil (375px ke bawah) */
+  .glitch-text {
+    font-size: clamp(20px, 8vw, 40px);
+    max-width: 100vw;
+    padding: 0 8vw;
+  }
 }
